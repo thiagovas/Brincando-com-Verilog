@@ -35,14 +35,16 @@ module Alu (
 			
 			3'b010:begin
 				//ADD
-				aluout<=(a+b);
+				aluout=(a+b);
 				
 				// There is a way with less comparisons to do this, but I don't know wether this work
-				if(a >= 0 && b >= 0) begin
-					overflow <= (aluout<0 ? 1 : 0);
+				if($signed(a) >= 0 && $signed(b) >= 0) begin
+					overflow = ($signed(aluout) < 0 ? 1'b1 : 1'b0);
+					$display("OH\n");
 				end else begin
-					if(a < 0 && b < 0) begin
-						overflow <= (aluout>=0 ? 1 : 0);
+					if($signed(a) < 0 && $signed(b) < 0) begin
+						overflow = ($signed(aluout)>=0 ? 1 : 0);
+						$display("OH2 %d %d %d\n", $signed(a), $signed(b), $signed(aluout));
 					end
 				end
 			end
