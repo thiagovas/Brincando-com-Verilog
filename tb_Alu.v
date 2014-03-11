@@ -13,14 +13,19 @@ module tb_Alu;
 
 	Alu tb(a, b, aluout, op, unsig, compout, overflow);
 	initial begin
-		//$dumpfile("result.vcd");
-		//$dumpvars(0, tb_Alu);
+		$dumpfile("result.vcd");
+		$dumpvars(0, tb_Alu);
 
-		a = 32'b11111111111111111111111111111111;
-		b = 32'b11111111111111111111111111111111;
+		//Neste teste overflow tem que ser 0
+		$display("Teste para overflow: Neste teste o sinal de overflow tem que ser 1(um)\n");
+		a = 32'b01111111111111111111111111111111;
+		b = 32'b01111111111111111111111111111111;
         op = 3'b010;
-        unsig = 0;
+		unsig = 0;
+		$display("a = %b\nb = %b\nop = %b\n", a, b, op);
 		#10;
-		$display("%b  %b  %b\n", compout, overflow, aluout);
+		$display("Result: compout=%b  overflow=%b  aluout=%b\n\n", compout, overflow, aluout);
+
+		//$display();
 	end
 endmodule
