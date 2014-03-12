@@ -23,7 +23,7 @@ module Alu (
 		case(op)
 			3'b000:begin
 				//AND
-				aluout<=($signed(a)&$signed(b));
+				aluout<=(a&b);
 				overflow<=0;
 			end
 			
