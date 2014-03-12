@@ -14,7 +14,7 @@ module Alu (
 	reg compout, overflow, aluout;
 	always @(*) begin
 		
-		if(unsig) begin
+		if(unsig == 1) begin
 			compout<=(a<b?1:0);
 		end else begin
 			compout<=($signed(a)<$signed(b) ? 1:0); // http://excamera.com/sphinx/fpga-verilog-sign.html
@@ -23,7 +23,7 @@ module Alu (
 		case(op)
 			3'b000:begin
 				//AND
-				aluout<=(a&b);
+				aluout<=($signed(a)&$signed(b));
 				overflow<=0;
 			end
 			
@@ -35,8 +35,12 @@ module Alu (
 			
 			3'b010:begin
 				//ADD
-				aluout=(a+b);
-				
+				if(unsig == 1) begin
+					aluout = (a+b);
+				end else begin
+					aluout = ($signed(a)+$signed(b));
+				end
+
 				if($signed(a) >= 0 && $signed(b) >= 0) begin
 					overflow = ($signed(aluout) < 0 ? 1 : 0);
 				end else begin
@@ -60,7 +64,11 @@ module Alu (
 			
 			3'b110:begin
 				//SUB
-				aluout<=(a-b);
+				if(unsig == 1) begin
+					aluout = (a-b);
+				end else begin
+					aluout = ($signed(a)-$signed(b));
+				end
 
 				if($signed(a)>=0 && $signed(b)<0) begin
 					overflow <= (aluout<0 ? 1 : 0);

@@ -15,6 +15,13 @@ module tb_Alu;
 	initial begin
 		$dumpfile("result.vcd");
 		$dumpvars(0, tb_Alu);
+	
+		a = 32'b11111111111111111111111111111011;
+		b = 32'b11111111111111111111111111111100;
+		unsig = 1;
+		op = 3'b000;
+		#10;
+		$display("Result: %d %d %d\n", a, b, aluout);
 
 		//Neste teste overflow tem que ser 1(um)
 		$display("Teste para overflow: Neste teste o sinal de overflow tem que ser 1(um)");
